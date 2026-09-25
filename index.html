@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b1120">
+<title>iProfessor | Nursing Education Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root{
+  --navy:#0b1120; --navy2:#0f2740; --blue:#0f4c75; --cyan:#0891b2; --sky:#0284c7;
+  --bg:#f4f7fb; --card:#fff; --text:#172033; --muted:#64748b; --line:#e2e8f0;
+  --soft:#eef5fa; --green:#0f9d74; --amber:#d88900; --violet:#7657d9; --rose:#d33b61;
+  --sidebar:270px; --top:70px; --radius:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Plus Jakarta Sans",system-ui,sans-serif;background:var(--bg);color:var(--text);height:100dvh;overflow:hidden}
+button,input{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+
+.app{display:flex;height:100dvh}
+.sidebar{width:var(--sidebar);background:var(--navy);color:#dbe7f2;position:fixed;left:0;top:0;bottom:0;z-index:50;display:flex;flex-direction:column}
+.brand{padding:20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.07)}
+.brand-mark{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#06b6d4,#0f4c75);display:grid;place-items:center;color:#fff;box-shadow:0 7px 20px rgba(2,132,199,.28)}
+.brand h1{font-size:1.22rem;margin:0;color:#fff;letter-spacing:-.4px}
+.brand span{font-size:.68rem;color:#94a3b8;text-transform:uppercase;letter-spacing:1px}
+.sidebar-scroll{overflow:auto;padding:15px 11px 12px;flex:1}
+.nav-label{margin:17px 10px 7px;font-size:.66rem;font-weight:800;color:rgba(255,255,255,.34);text-transform:uppercase;letter-spacing:1.2px}
+.nav-item{border:0;width:100%;display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:9px;background:transparent;color:#cbd5e1;text-align:left;font-size:.88rem;font-weight:600;margin-bottom:2px}
+.nav-item i{width:18px;text-align:center;opacity:.8}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav-item.active{background:linear-gradient(135deg,#0284c7,#0f4c75);color:#fff;box-shadow:0 8px 20px rgba(2,132,199,.25)}
+.sidebar-footer{padding:14px 18px;border-top:1px solid rgba(255,255,255,.07);font-size:.71rem;color:rgba(255,255,255,.32);text-align:center}
+
+.main{margin-left:var(--sidebar);height:100dvh;display:flex;flex:1;flex-direction:column;min-width:0}
+.topbar{height:var(--top);background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:20;flex-shrink:0}
+.top-left,.top-right{display:flex;align-items:center;gap:12px}
+.hamburger{display:none;width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--soft);color:var(--muted)}
+.search{position:relative}
+.search i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94a3b8}
+.search input{width:360px;height:40px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;padding:0 14px 0 38px;outline:none;color:var(--text)}
+.search input:focus{border-color:#7dd3fc;box-shadow:0 0 0 3px rgba(2,132,199,.1);background:#fff}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#f8fafc;color:var(--muted)}
+.icon-btn:hover{background:#eaf2f7;color:var(--blue)}
+
+.canvas{overflow:auto;flex:1;padding:28px}
+.inner{max-width:1380px;margin:auto}
+
+.hero{background:linear-gradient(135deg,#09243b 0%,#0f4c75 50%,#0284c7 100%);color:#fff;border-radius:20px;padding:34px 38px;display:flex;justify-content:space-between;align-items:center;gap:25px;position:relative;overflow:hidden;margin-bottom:22px;box-shadow:0 16px 35px rgba(15,76,117,.18)}
+.hero:after{content:"";position:absolute;width:360px;height:360px;border-radius:50%;right:-80px;top:-120px;background:radial-gradient(circle,rgba(255,255,255,.11),transparent 67%)}
+.hero-copy{max-width:760px;position:relative;z-index:2}
+.eyebrow{font-size:.68rem;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;display:inline-flex;gap:7px;align-items:center;padding:6px 11px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.11);border-radius:999px;margin-bottom:12px}
+.hero h2{margin:0 0 10px;font-size:2rem;line-height:1.18;letter-spacing:-.7px}
+.hero p{margin:0 0 20px;color:rgba(255,255,255,.83);line-height:1.7;font-size:.93rem}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px}
+.primary-btn,.ghost-btn{border-radius:9px;padding:10px 15px;font-weight:800;border:1px solid transparent;display:inline-flex;gap:8px;align-items:center}
+.primary-btn{background:#fff;color:var(--blue)}
+.ghost-btn{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.26)}
+.hero-art{font-size:7.3rem;color:rgba(255,255,255,.11);transform:rotate(-9deg);padding-right:22px}
+
+.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.quick{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;gap:12px;align-items:center}
+.quick-icon{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;flex:0 0 auto}
+.quick-icon.green{background:#e7f8f1;color:var(--green)} .quick-icon.amber{background:#fff4da;color:var(--amber)}
+.quick-icon.violet{background:#eeeafd;color:var(--violet)} .quick-icon.rose{background:#fde8ee;color:var(--rose)}
+.quick-value{font-size:1.35rem;font-weight:800;line-height:1}
+.quick-label{margin-top:4px;color:var(--muted);font-size:.72rem;font-weight:600}
+
+.content-section{scroll-margin-top:18px;margin-bottom:30px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:0 0 14px}
+.section-title{display:flex;align-items:center;gap:9px;margin:0;font-size:1.18rem;font-weight:800}
+.section-title i{color:var(--sky)}
+.section-sub{margin:5px 0 0;color:var(--muted);font-size:.8rem}
+.section-action{color:var(--blue);font-size:.78rem;font-weight:800;background:transparent;border:0}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px;display:flex;flex-direction:column;min-height:205px;position:relative;overflow:hidden;transition:.22s ease}
+.card:hover{transform:translateY(-3px);border-color:#b7d8ea;box-shadow:0 14px 28px rgba(15,23,42,.07)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:13px}
+.card-icon{width:45px;height:45px;border-radius:12px;background:var(--soft);display:grid;place-items:center;color:var(--blue);border:1px solid #dae8f1}
+.badge{font-size:.64rem;font-weight:800;padding:4px 8px;border-radius:6px;background:#eff6ff;color:#2563eb;text-transform:uppercase;letter-spacing:.4px}
+.badge.soon{background:#fff7ed;color:#c2410c}.open-btn:disabled{cursor:not-allowed;background:#f8fafc;color:#94a3b8;border-color:#e2e8f0;opacity:1}.module-card{min-height:200px}
+.card h4{margin:0 0 7px;font-size:.97rem;line-height:1.35}
+.card p{margin:0 0 15px;color:var(--muted);font-size:.79rem;line-height:1.65;flex:1}
+.card-foot{border-top:1px solid var(--line);padding-top:11px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.meta{font-size:.69rem;color:#94a3b8;font-weight:700;display:flex;gap:6px;align-items:center}
+.open-btn{border:1px solid var(--line);background:#f8fafc;color:var(--blue);border-radius:8px;padding:7px 11px;font-size:.72rem;font-weight:800}
+.open-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+.category-card{min-height:168px}
+.category-card h4{font-size:1rem}
+.category-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.category-chip{font-size:.64rem;padding:5px 8px;background:#f8fafc;border:1px solid var(--line);border-radius:999px;color:#475569;font-weight:700}
+
+.callout{background:#fff;border:1px dashed #bfd8e7;border-radius:15px;padding:18px;display:flex;align-items:flex-start;gap:14px}
+.callout-icon{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;background:#e7f6fb;color:#0e7490;flex:0 0 auto}
+.callout h4{margin:0 0 5px;font-size:.91rem}.callout p{margin:0;color:var(--muted);font-size:.77rem;line-height:1.6}
+
+.resource-panel{background:#fff;border:1px solid var(--line);border-radius:15px;overflow:hidden}
+.resource-row{display:grid;grid-template-columns:52px 1.5fr 1fr auto;gap:14px;align-items:center;padding:13px 15px;border-bottom:1px solid var(--line)}
+.resource-row:last-child{border-bottom:0}
+.resource-icon{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:#eef6fb;color:var(--blue)}
+.resource-title{font-size:.82rem;font-weight:800}.resource-desc{font-size:.69rem;color:var(--muted);margin-top:3px;line-height:1.45}
+.resource-type{font-size:.68rem;color:#64748b;font-weight:700}
+.resource-row .open-btn{justify-self:end}
+
+.empty{display:none;padding:50px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:15px}
+.empty i{font-size:2rem;margin-bottom:10px;color:#94a3b8;display:block}
+.hidden{display:none!important}
+
+.footer{margin-top:10px;background:var(--navy);color:rgba(255,255,255,.55);border-radius:15px;padding:30px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:25px}
+.footer h4{margin:0 0 11px;color:#fff;font-size:.76rem;text-transform:uppercase;letter-spacing:1px}
+.footer p,.footer a{font-size:.72rem;line-height:1.7;color:rgba(255,255,255,.5)}
+.footer a{display:block;margin-bottom:5px}.footer a:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);margin-top:18px;padding-top:15px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:.66rem;color:rgba(255,255,255,.35)}
+
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:45}
+#backTop{position:fixed;right:25px;bottom:24px;width:44px;height:44px;border:0;border-radius:50%;background:linear-gradient(135deg,var(--sky),var(--blue));color:#fff;display:grid;place-items:center;box-shadow:0 9px 20px rgba(2,132,199,.28);opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s;z-index:30}
+#backTop.show{opacity:1;transform:none;pointer-events:auto}
+
+@media (max-width:1120px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .quick-grid{grid-template-columns:repeat(2,1fr)}
+  .search input{width:270px}
+}
+@media (max-width:800px){
+  .sidebar{transform:translateX(-100%);transition:transform .25s ease}.sidebar.open{transform:translateX(0)}
+  .overlay.show{display:block}
+  .main{margin-left:0}.hamburger{display:grid;place-items:center}
+  .topbar{padding:0 15px}.top-left{min-width:0;flex:1}.search{flex:1}.search input{width:100%}
+   .canvas{padding:17px}
+  .hero{padding:25px 22px}.hero h2{font-size:1.55rem}.hero-art{display:none}
+  .grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .resource-row{grid-template-columns:42px 1fr auto}.resource-type{display:none}
+}
+@media (max-width:520px){
+  .quick-grid{grid-template-columns:1fr 1fr}.quick{padding:12px}
+  .quick-value{font-size:1.1rem}
+  .section-title{font-size:1rem}
+  .hero-actions{width:100%}.primary-btn,.ghost-btn{justify-content:center;flex:1}
+  .resource-row{grid-template-columns:42px 1fr}.resource-row .open-btn{grid-column:2;justify-self:start}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+:focus-visible{outline:3px solid rgba(2,132,199,.35);outline-offset:2px}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+    <div class="brand">
+      <div class="brand-mark"><i class="fas fa-stethoscope"></i></div>
+      <div>
+        <h1>iProfessor</h1>
+        <span>Nursing Education Hub</span>
+      </div>
+    </div>
+
+    <div class="sidebar-scroll">
+      <div class="nav-label">Student Learning</div>
+      <button class="nav-item active" data-target="home"><i class="fas fa-house"></i> Home</button>
+      <button class="nav-item" data-target="learn"><i class="fas fa-book-open"></i> Learn</button>
+      <button class="nav-item" data-target="modules"><i class="fas fa-cubes"></i> Modules</button>
+      <button class="nav-item" data-target="practice"><i class="fas fa-list-check"></i> Practice</button>
+      <button class="nav-item" data-target="assessments"><i class="fas fa-clipboard-check"></i> Assessments</button>
+
+      <div class="nav-label">Clinical Support</div>
+      <button class="nav-item" data-target="clinical-tools"><i class="fas fa-kit-medical"></i> Clinical Tools</button>
+
+      <div class="nav-label">Learning Resources</div>
+      <button class="nav-item" data-target="resources"><i class="fas fa-folder-open"></i> Resource Library</button>
+
+    </div>
+
+    <div class="sidebar-footer">© <span id="year"></span> <strong>iProfessor</strong> · Academic Use</div>
+  </aside>
+
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="top-left">
+        <button class="hamburger" id="menuBtn" aria-label="Open navigation"><i class="fas fa-bars"></i></button>
+        <div class="search">
+          <i class="fas fa-search"></i>
+          <input id="searchInput" type="search" placeholder="Search topics, modules, tools, resources..." aria-label="Search resources">
+        </div>
+      </div>
+
+      <div class="top-right">
+        <button class="icon-btn" title="Notifications" aria-label="Notifications"><i class="far fa-bell"></i></button>
+        <button class="icon-btn" title="Profile" aria-label="Profile"><i class="fas fa-user-nurse"></i></button>
+      </div>
+    </header>
+
+    <div class="canvas" id="canvas">
+      <div class="inner">
+
+        <section id="home" class="content-section">
+          <div class="hero">
+            <div class="hero-copy">
+              <div class="eyebrow"><i class="fas fa-graduation-cap"></i> Nursing Education Platform</div>
+              <h2>Learn nursing concepts. Practice confidently. Apply clinically.</h2>
+              <p>A focused academic workspace for nursing students—bringing lessons, modules, practice, assessments, clinical tools and learning resources into one clear, easy-to-navigate environment.</p>
+              <div class="hero-actions">
+                <button class="primary-btn" onclick="document.getElementById('learn').scrollIntoView({behavior:'smooth'})"><i class="fas fa-play"></i> Continue Learning</button>
+                <button class="ghost-btn" onclick="document.getElementById('clinical-tools').scrollIntoView({behavior:'smooth'})"><i class="fas fa-kit-medical"></i> Clinical Tools</button>
+              </div>
+            </div>
+            <div class="hero-art" aria-hidden="true"><i class="fas fa-user-nurse"></i></div>
+          </div>
+
+          <div class="quick-grid" id="quickStats">
+            <div class="quick"><div class="quick-icon green"><i class="fas fa-book-open"></i></div><div><div class="quick-value" id="countLearn">0</div><div class="quick-label">Interactive lessons</div></div></div>
+            <div class="quick"><div class="quick-icon amber"><i class="fas fa-list-check"></i></div><div><div class="quick-value" id="countPractice">0</div><div class="quick-label">Practice & quizzes</div></div></div>
+            <div class="quick"><div class="quick-icon violet"><i class="fas fa-toolbox"></i></div><div><div class="quick-value" id="countTools">0</div><div class="quick-label">Clinical tools</div></div></div>
+            <div class="quick"><div class="quick-icon rose"><i class="fas fa-folder-open"></i></div><div><div class="quick-value" id="countResources">0</div><div class="quick-label">Library resources</div></div></div>
+          </div>
+        </section>
+
+        <section id="learn" class="content-section">
+          <div class="section-head">
+            <div><h3 class="section-title"><i class="fas fa-book-open"></i> Learn</h3><p class="section-sub">Structured lessons and topic-based learning for nursing students.</p></div>
+            <button class="section-action" onclick="clearSearch()">Show all</button>
+          </div>
+          <div class="grid" id="learnGrid"></div>
+        </section>
+
+        <section id="modules" class="content-section">
+          <div class="section-head">
+            <div><h3 class="section-title"><i class="fas fa-cubes"></i> Modules</h3><p class="section-sub">Explore available learning modules. New modules will be added progressively.</p></div>
+          </div>
+          <div class="grid" id="moduleGrid"></div>
+        </section>
+
+        <section id="practice" class="content-section">
+          <div class="section-head">
+            <div><h3 class="section-title"><i class="fas fa-list-check"></i> Practice</h3><p class="section-sub">Short, focused practice to strengthen recall and clinical understanding.</p></div>
+          </div>
+          <div class="grid" id="practiceGrid"></div>
+        </section>
+
+        <section id="assessments" class="content-section">
+          <div class="section-head">
+            <div><h3 class="section-title"><i class="fas fa-clipboard-check"></i> Assessments</h3><p class="section-sub">Formal assessment resources and knowledge checks.</p></div>
+          </div>
+          <div class="grid" id="assessmentGrid"></div>
+        </section>
+
+        <section id="clinical-tools" class="content-section">
+          <div class="section-head">
+            <div><h3 class="section-title"><i class="fas fa-kit-medical"></i> Clinical Tools</h3><p class="section-sub">Clinical reference aids, interpretation resources and practical nursing support.</p></div>
+          </div>
+          <div class="grid" id="clinicalGrid"></div>
+          <div class="callout" style="margin-top:14px">
+            <div class="callout-icon"><i class="fas fa-circle-info"></i></div>
+            <div><h4>Clinical education note</h4><p>Tools and interpretation resources are educational aids. Use professional clinical judgment, institutional policy and current authoritative guidance when applying information in patient care.</p></div>
+          </div>
+        </section>
+
+        <section id="resources" class="content-section">
+          <div class="section-head">
+            <div><h3 class="section-title"><i class="fas fa-folder-open"></i> Resource Library</h3><p class="section-sub">Lecture notes, presentations and e-books in one searchable place.</p></div>
+          </div>
+          <div class="resource-panel" id="resourceList"></div>
+          <div class="empty" id="emptyState"><i class="fas fa-magnifying-glass"></i><strong>No matching resources</strong><div style="margin-top:6px">Try a different keyword or clear the search.</div></div>
+        </section>
+
+        <footer class="footer">
+          <div class="footer-grid">
+            <div>
+              <h4>iProfessor Nursing Education Hub</h4>
+              <p>A structured digital learning environment for nursing students. The index keeps academic learning, practice, assessment, clinical tools and resources easy to find.</p>
+            </div>
+            <div>
+              <h4>Learning</h4>
+              <a href="#learn">Learn</a>
+              <a href="#modules">Modules</a>
+              <a href="#practice">Practice</a>
+              <a href="#assessments">Assessments</a>
+            </div>
+            <div>
+              <h4>Clinical & Resources</h4>
+              <a href="#clinical-tools">Clinical Tools</a>
+              <a href="#resources">Resource Library</a>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <span>© <span id="year2"></span> iProfessor. Academic use.</span>
+            <span>Designed for clarity • usability • academic workflow</span>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<button id="backTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+const resources = [
+  {id:1,type:"learn",title:"Height Measurement",desc:"Master accurate height measurement techniques using stadiometers and infantometers, with clinical interpretation.",file:"1_Height_Measurement.html",icon:"fa-ruler-vertical",meta:"Interactive"},
+  {id:2,type:"learn",title:"Weight Measurement",desc:"Learn scale calibration, zeroing, and clinical interpretation of patient weight across age groups.",file:"2_Weight_Measurement.html",icon:"fa-weight",meta:"Interactive"},
+  {id:3,type:"learn",title:"MUAC Screening",desc:"Learn proper MUAC tape placement, landmark identification, and tricolor zone interpretation.",file:"3_Mid_Arm_Circumference.html",icon:"fa-tape",meta:"Interactive"},
+  {id:4,type:"learn",title:"Breastfeeding Positions",desc:"Develop skills in breastfeeding positioning and optimal latch support.",file:"4_Breastfeeding_Positions.html",icon:"fa-baby",meta:"Interactive"},
+  {id:5,type:"learn",title:"Child Play & Development",desc:"Understand play as a driver of child development across developmental stages.",file:"5_Child_Play.html",icon:"fa-puzzle-piece",meta:"Interactive"},
+  {id:6,type:"learn",title:"Newborn Reflexes",desc:"Learn to identify and assess primitive reflexes in neonates.",file:"6_Reflex_Assessment.html",icon:"fa-brain",meta:"Interactive"},
+  {id:36,type:"learn",title:"Material & Equipment Management in Nursing",desc:"Seven thematic units covering procurement, inventory control, equipment management, condemnation, nursing roles and auditing.",file:"Material_Management_Module.html",icon:"fa-boxes-stacked",meta:"7 Units · Quiz",new:true},
+  {id:31,type:"learn",title:"Organizational Behavior and Human Relations",desc:"Interactive lesson for nursing management covering leadership, motivation and team dynamics.",file:"OB_Human_Relations_Nursing_Module.html",icon:"fa-people-arrows",meta:"Interactive"},
+  {id:32,type:"learn",title:"Pediatric Hematological Conditions",desc:"Interactive pediatric nursing lesson covering congenital and acquired blood disorders.",file:"pediatric_hematology_lecture.html",icon:"fa-droplet",meta:"Interactive"},
+  {id:33,type:"learn",title:"Nursing Management & Leadership",desc:"Leadership theories, management styles, delegation, communication and conflict resolution.",file:"leadership_content.html",icon:"fa-user-tie",meta:"Interactive"},
+  {id:34,type:"learn",title:"Leadership Learning Activities",desc:"Activity-based learning through scenarios, reflection prompts and applied management challenges.",file:"leadership_activities.html",icon:"fa-tasks",meta:"Activities"},
+  {id:35,type:"learn",title:"Directing & Controlling in Nursing",desc:"Interactive lesson on supervision, motivation, performance appraisal and quality control.",file:"directing_controlling.html",icon:"fa-sitemap",meta:"Interactive"},
+
+  {id:30,type:"practice",title:"Hematology Challenge — Gamified Quiz",desc:"20-question practice quiz on pediatric hematological conditions with clinical feedback.",file:"Assessment_PediatricHematology.html",icon:"fa-trophy",meta:"20 Questions"},
+  {id:7,type:"practice",title:"Height Practice",desc:"Practice stature vs. recumbent length, growth milestones and stunting concepts.",file:"Assessment_Height.html",icon:"fa-ruler-vertical",meta:"5 Questions"},
+  {id:8,type:"practice",title:"Weight Practice",desc:"Practice concepts related to physiological weight loss, milestones and severe underweight.",file:"Assessment_Weight.html",icon:"fa-weight-scale",meta:"5 Questions"},
+  {id:9,type:"practice",title:"MUAC Practice",desc:"Practice MUAC technique and classification of severe and moderate acute malnutrition.",file:"Assessment_MUAC.html",icon:"fa-tape",meta:"5 Questions"},
+  {id:10,type:"practice",title:"Breastfeeding Practice",desc:"Practice latch optimization, breastfeeding positions and feeding complications.",file:"Assessment_Breastfeeding.html",icon:"fa-baby",meta:"5 Questions"},
+  {id:11,type:"practice",title:"Play & Development Quiz",desc:"Practice developmental play stages, animism and therapeutic medical play.",file:"Assessment_Play.html",icon:"fa-puzzle-piece",meta:"5 Questions"},
+  {id:13,type:"practice",title:"Head Circumference Quiz",desc:"Practice pediatric head circumference measurement and interpretation.",file:"Assessment_HeadCircumference.html",icon:"fa-circle-notch",meta:"5 Questions"},
+
+  {id:16,type:"clinical",title:"WHO Growth Chart Tool",desc:"Interpret WHO growth charts, Z-scores, stunting and wasting through interactive learning.",file:"Growth_Monitoring.html",icon:"fa-chart-area",meta:"Clinical Tool"},
+
+  {id:18,type:"resource",title:"Pediatric Growth & Development",desc:"Comprehensive lecture notes covering major physiological and cognitive milestones.",file:"notes_growth_dev.pdf",icon:"fa-file-pdf",meta:"PDF"},
+  {id:19,type:"resource",title:"Neonatal Resuscitation Protocol",desc:"Step-by-step notes on the Golden Minute and positive pressure ventilation.",file:"notes_nrp.pdf",icon:"fa-file-pdf",meta:"PDF"},
+  {id:20,type:"resource",title:"IMNCI Complete Chart Booklet",desc:"Reference charts for facility-based triage and treatment.",file:"notes_imnci_booklet.pdf",icon:"fa-file-pdf",meta:"PDF"},
+  {id:28,type:"resource",title:"Organizational Behaviour & Human Relations – Part A",desc:"Unit 9 slide deck covering foundational concepts. 22 slides.",file:"ppt_ob_a.html",icon:"fa-file-powerpoint",meta:"22 Slides"},
+  {id:29,type:"resource",title:"Organizational Behaviour & Human Relations – Part B",desc:"Extended slide deck covering advanced topics. 42 slides.",file:"ppt_ob_b.html",icon:"fa-file-powerpoint",meta:"42 Slides"},
+  {id:22,type:"resource",title:"Congenital Heart Defects",desc:"Visual slide deck outlining acyanotic and cyanotic heart conditions in pediatrics.",file:"ppt_chd.html",icon:"fa-file-powerpoint",meta:"Slides"},
+  {id:23,type:"resource",title:"Pediatric Immunization Schedule",desc:"National Immunization Schedule covering vaccines, routes and administration sites.",file:"ppt_immunization.html",icon:"fa-file-powerpoint",meta:"Slides"},
+  {id:24,type:"resource",title:"Advanced Pediatric Nursing",desc:"Open-access comprehensive textbook covering advanced pathophysiological concepts.",file:"ebook_pediatrics.pdf",icon:"fa-book",meta:"E-Book"},
+  {id:25,type:"resource",title:"Clinical Skills Handbook",desc:"Guide to standard nursing procedures and rationale for pediatric practice.",file:"ebook_skills.pdf",icon:"fa-book",meta:"E-Book"}
+];
+
+// Existing simulator entries intentionally excluded from this index:
+// IMNCI Advanced Masterclass, IMNCI Clinical Vignettes, APGAR & Neonatal Simulation,
+// and other simulator/game-style entries from the uploaded index.
+
+const modules = [
+  {id:"m1", title:"Pediatric Growth & Development", desc:"Interactive learning covering growth measurements, developmental concepts and practical pediatric assessment.", file:"Growth_Monitoring.html", icon:"fa-child", meta:"Available"},
+  {id:"m2", title:"Breastfeeding & Infant Feeding", desc:"Learn breastfeeding positions, latch support and practical feeding guidance through structured learning activities.", file:"4_Breastfeeding_Positions.html", icon:"fa-baby", meta:"Available"},
+  {id:"m3", title:"Pediatric Hematological Conditions", desc:"Study congenital and acquired blood disorders with an interactive pediatric nursing focus.", file:"pediatric_hematology_lecture.html", icon:"fa-droplet", meta:"Available"},
+  {id:"m4", title:"Nursing Management & Leadership", desc:"Explore leadership theories, management styles, delegation, communication and conflict resolution.", file:"leadership_content.html", icon:"fa-user-tie", meta:"Available"},
+  {id:"m5", title:"Material & Equipment Management", desc:"Seven thematic units covering procurement, inventory control, equipment management, condemnation, nursing roles and auditing.", file:"Material_Management_Module.html", icon:"fa-boxes-stacked", meta:"Available"},
+  {id:"m6", title:"Artificial Intelligence in Health Care", desc:"An upcoming learning module introducing practical applications of AI in modern healthcare and nursing.", file:null, icon:"fa-robot", meta:"Coming Soon", comingSoon:true},
+  {id:"m7", title:"Green Nursing", desc:"An upcoming module on environmental sustainability, climate-aware healthcare and green nursing practices.", file:null, icon:"fa-leaf", meta:"Coming Soon", comingSoon:true},
+  {id:"m8", title:"Community Health Nursing", desc:"An upcoming module focusing on community-based nursing concepts, prevention and health promotion.", file:null, icon:"fa-people-group", meta:"Coming Soon", comingSoon:true},
+  {id:"m9", title:"Mental Health Nursing", desc:"An upcoming module covering therapeutic communication, common mental health conditions and nursing care.", file:null, icon:"fa-brain", meta:"Coming Soon", comingSoon:true}
+];
+
+function moduleCard(item){
+  const safeTitle = item.title.replace(/"/g,'&quot;');
+  const badge = item.comingSoon ? "COMING SOON" : "AVAILABLE";
+  const button = item.comingSoon
+    ? `<button class="open-btn" disabled aria-label="${safeTitle} coming soon">Coming Soon</button>`
+    : `<button class="open-btn" onclick="window.open('${item.file}','_blank')" aria-label="Open ${safeTitle}">Open <i class="fas fa-arrow-right"></i></button>`;
+  return `
+    <article class="card category-card searchable module-card" data-search="${(item.title+' '+item.desc+' '+item.meta).toLowerCase()}">
+      <div class="card-top">
+        <div class="card-icon"><i class="fas ${item.icon}"></i></div>
+        <span class="badge ${item.comingSoon ? "soon" : ""}">${badge}</span>
+      </div>
+      <h4>${safeTitle}</h4>
+      <p>${item.desc}</p>
+      <div class="card-foot">
+        <div class="meta"><i class="fas ${item.comingSoon ? "fa-clock" : "fa-circle-check"}"></i>${item.meta}</div>
+        ${button}
+      </div>
+    </article>`;
+}
+
+const labels = {
+  learn:"LEARN",
+  practice:"PRACTICE",
+  clinical:"CLINICAL TOOL",
+  resource:"RESOURCE"
+};
+
+function card(item){
+  const safeTitle = item.title.replace(/"/g,'&quot;');
+  return `
+    <article class="card searchable" data-search="${(item.title+' '+item.desc+' '+item.meta).toLowerCase()}">
+      <div class="card-top">
+        <div class="card-icon"><i class="fas ${item.icon}"></i></div>
+        <span class="badge">${labels[item.type] || "RESOURCE"}</span>
+      </div>
+      <h4>${safeTitle}</h4>
+      <p>${item.desc}</p>
+      <div class="card-foot">
+        <div class="meta"><i class="fas fa-circle-info"></i>${item.meta}</div>
+        <button class="open-btn" onclick="window.open('${item.file}','_blank')" aria-label="Open ${safeTitle}">
+          Open <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </article>`;
+}
+
+function render(){
+  document.getElementById("moduleGrid").innerHTML = modules.map(moduleCard).join("");
+  document.getElementById("learnGrid").innerHTML = resources.filter(r=>r.type==="learn").map(card).join("");
+  document.getElementById("practiceGrid").innerHTML = resources.filter(r=>r.type==="practice").map(card).join("");
+  document.getElementById("assessmentGrid").innerHTML = `
+    <article class="card">
+      <div class="card-top"><div class="card-icon"><i class="fas fa-clipboard-check"></i></div><span class="badge">ASSESSMENT</span></div>
+      <h4>Assessment Centre</h4>
+      <p>Use the connected LMS assessment workflow for assignments, module assessments, knowledge checks and result review.</p>
+      <div class="card-foot"><div class="meta"><i class="fas fa-shield-check"></i> Academic assessment</div><button class="open-btn" onclick="alert('Connect your LMS assessment module here.')">Open <i class="fas fa-arrow-right"></i></button></div>
+    </article>
+    <article class="card">
+      <div class="card-top"><div class="card-icon"><i class="fas fa-chart-simple"></i></div><span class="badge">FEEDBACK</span></div>
+      <h4>Performance Review</h4>
+      <p>Present score, completion and topic-level feedback after an assessment so learners know what to revise next.</p>
+      <div class="card-foot"><div class="meta"><i class="fas fa-user-graduate"></i> Student-focused</div><button class="open-btn" onclick="alert('Connect your LMS analytics module here.')">Open <i class="fas fa-arrow-right"></i></button></div>
+    </article>`;
+  document.getElementById("clinicalGrid").innerHTML = resources.filter(r=>r.type==="clinical").map(card).join("") + `
+    <article class="card category-card">
+      <div class="card-top"><div class="card-icon"><i class="fas fa-calculator"></i></div><span class="badge">CALCULATORS</span></div>
+      <h4>Clinical Calculators</h4>
+      <p>Keep dosage, IV, BMI, BSA, MAP and other approved nursing calculations together under one predictable destination.</p>
+      <div class="card-foot"><div class="meta"><i class="fas fa-bolt"></i> Fast access</div><button class="open-btn" onclick="alert('Connect your calculator library here.')">Open <i class="fas fa-arrow-right"></i></button></div>
+    </article>`;
+  document.getElementById("resourceList").innerHTML = resources.filter(r=>r.type==="resource").map(r=>`
+    <div class="resource-row searchable" data-search="${(r.title+' '+r.desc+' '+r.meta).toLowerCase()}">
+      <div class="resource-icon"><i class="fas ${r.icon}"></i></div>
+      <div><div class="resource-title">${r.title}</div><div class="resource-desc">${r.desc}</div></div>
+      <div class="resource-type">${r.meta}</div>
+      <button class="open-btn" onclick="window.open('${r.file}','_blank')">Open <i class="fas fa-arrow-right"></i></button>
+    </div>`).join("");
+  updateCounts();
+}
+
+function updateCounts(){
+  document.getElementById("countLearn").textContent = resources.filter(r=>r.type==="learn").length;
+  document.getElementById("countPractice").textContent = resources.filter(r=>r.type==="practice").length;
+  document.getElementById("countTools").textContent = resources.filter(r=>r.type==="clinical").length + 1;
+  document.getElementById("countResources").textContent = resources.filter(r=>r.type==="resource").length;
+}
+
+function clearSearch(){
+  const input = document.getElementById("searchInput");
+  input.value = "";
+  filter("");
+}
+
+function filter(q){
+  const term = q.toLowerCase().trim();
+  let shown=0;
+  document.querySelectorAll(".searchable").forEach(el=>{
+    const match = !term || el.dataset.search.includes(term);
+    el.classList.toggle("hidden",!match);
+    if(match) shown++;
+  });
+  document.getElementById("emptyState").style.display = term && shown===0 ? "block" : "none";
+}
+
+function closeSidebar(){
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("overlay").classList.remove("show");
+}
+document.getElementById("menuBtn").addEventListener("click",()=>{
+  document.getElementById("sidebar").classList.add("open");
+  document.getElementById("overlay").classList.add("show");
+});
+
+document.querySelectorAll(".nav-item").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));
+    btn.classList.add("active");
+    const target=document.getElementById(btn.dataset.target);
+    if(target) target.scrollIntoView({behavior:"smooth",block:"start"});
+    closeSidebar();
+  });
+});
+
+document.getElementById("searchInput").addEventListener("input",e=>{
+  filter(e.target.value);
+  if(e.target.value.trim()){
+    document.getElementById("resources").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+});
+
+const canvas=document.getElementById("canvas"), backTop=document.getElementById("backTop");
+canvas.addEventListener("scroll",()=>{
+  backTop.classList.toggle("show",canvas.scrollTop>350);
+});
+backTop.addEventListener("click",()=>canvas.scrollTo({top:0,behavior:"smooth"}));
+
+document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementById("year2").textContent = new Date().getFullYear();
+render();
+</script>
+</body>
+</html>
